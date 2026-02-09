@@ -8,7 +8,6 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    
     <nav>
         <div class="nav-box">
             <ul>
@@ -18,31 +17,29 @@
             </ul>
         </div>
     </nav>
-
     <main>
         <section id="home-page" class="page active">
-            <h1>Top Stories</h1>
+            <h1>Top News</h1>
             <div id="news-list">
                 <article class="card">
                     <div class="card-header">
-                        <img src="img.png" alt="news">
+                        <img src="NBA.png" alt="news">
                         <div>
-                            <p class="author">John Doe</p>
-                            <h2>title!</h2>
+                            <p class="author">Shlomo</p>
+                            <h2>NEW</h2>
                         </div>
                     </div>
                     <p class="desc">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Exercitationem odit maiores beatae incidunt delectus facere voluptatum cupiditate quisquam maxime fugit.</p>
                 </article>
             </div>
         </section>
-        
         <section id="create-page" class="page">
             <form id="post-form">
                 <h1>Create Story</h1>
 
                 <div class="field">
                     <label>title</label>
-                    <input id="title" type="text" required>
+                    <input id="title" type="text">
                 </div>
 
                 <div class="field">
@@ -52,10 +49,10 @@
 
                 <div class="field">
                     <label>description</label>
-                    <textarea id="text" rows="5" required></textarea>
+                    <textarea id="text" rows="5" ></textarea>
                 </div>
 
-                <div class="btn-box">
+                <div class="btn-send">
                     <button type="button" onclick="addNewStory()">Send</button> 
                 </div>
             </form>
