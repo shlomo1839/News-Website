@@ -1,17 +1,10 @@
-// this is my url and my key to some newr=s
 const APIKEY = "ebaf59990a2e1943a5356986224a4f93";
 const URL = `https://gnews.io/api/v4/top-headlines?category=general&lang=en&country=us&max=10&apikey=${APIKEY}`;
 
-// this is the functions to move beteween "pages"
+// Functions to move pages
 function goHome() {
     document.getElementById('home-page').classList.add('active');
     document.getElementById('create-page').classList.remove('active');
-    document.getElementById('long-pages').classList.remove('active');
-}
-
-function goCreate() {
-    document.getElementById('create-page').classList.add('active');
-    document.getElementById('home-page').classList.remove('active');
     document.getElementById('long-pages').classList.remove('active');
 }
 
@@ -21,19 +14,28 @@ function goLongPages() {
     document.getElementById('create-page').classList.remove('active');
 }
 
-// load news from local storage
-function loadNews() {
-    const data = localStorage.getItem('news');         // save the data in "data"
+function goCreate() {
+    document.getElementById('create-page').classList.add('active');
+    document.getElementById('home-page').classList.remove('active');
+    document.getElementById('long-pages').classList.remove('active');
+}
 
-    if (data) {                                        // if is exsists show
+// load local storage
+function loadNews() {
+    const data = localStorage.getItem('news') || [];
+    // console.log(data);
+    
+    if (data.length > 0) {
         renderNews(JSON.parse(data));
-    } else {                                           // if not go to url
+    } else {
         fetch(URL)
-            .then(function(response) {                 // create the "box" with the code
+            .then(function(response) {
                 return response.json();
-            })
-            .then(function(data) {                     // than read it and create artichle tag with the value of the new
+            })    
+            .then(function(data) {
                 if (data.articles) {
+                        console.log(data.articles);
+
                     localStorage.setItem('news', JSON.stringify(data.articles));
                     renderNews(data.articles);
                 }
@@ -44,21 +46,22 @@ function loadNews() {
     }
 }
 
-// נרצה לשלוח את מה שטענו לפונקציה
-// its functions to show news
-function renderNews(articles) {
-    const list = document.getElementById('news-list'); // get news list 
-    // list.innerHTML = '';                               clean the list (html) from news
 
-    articles.forEach(function(item) {                  // for all new
-        const card = document.createElement('article');// create card in it show the details
-        card.className = 'card';                       // the name of class for this card is card
-                                                       // put the details inside the tag
+
+
+function renderNews(articles) {
+    // reset html news
+    const list = document.getElementById('news-list');
+    list.innerHTML = '';
+    // for every new - get, add class, inner to html with separted values, and push to list
+    articles.forEach(function(item) {
+        const card = document.createElement('article');
+        card.className = 'card';
         card.innerHTML = `                             
             <div class="card-header">
                 <img src="${item.image || item.urlToImage}" alt="news">
                 <div>
-                    <p class="author">${item.author}</p>
+                    <p class="author">${item.source.name}</p>
                     <h2>${item.title}</h2>
                 </div>
             </div>
@@ -67,6 +70,8 @@ function renderNews(articles) {
         list.appendChild(card);
     });
 }
+
+
 
 
 function addNewStory() {
@@ -79,16 +84,16 @@ function addNewStory() {
 
     const newStory = {
         title: title.value,
-        author: "",             //defult?
-        image: "",              //defult??
+        name: "",
+        image: "",
         description: text.value
     };
 
-    let currentNews = JSON.parse(localStorage.getItem('news'));       // טעינה
-    currentNews = [newStory, ...currentNews];                         // שמירה ראשון
+    let currentNews = JSON.parse(localStorage.getItem('news'));
+    currentNews = [newStory, ...currentNews];
 
-    localStorage.setItem('news', JSON.stringify(currentNews));        // שמירה חזרה
-    renderNews(currentNews);                                          // קורא לפןנקציה להצגת חדשות
+    localStorage.setItem('news', JSON.stringify(currentNews));
+    renderNews(currentNews);
     
 }
 
